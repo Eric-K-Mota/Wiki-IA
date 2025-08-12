@@ -8,19 +8,22 @@ from flask_cors import CORS
 from src.models.wiki import db, WikiDocument, WikiChunk
 from src.routes.user import user_bp
 from src.routes.wiki import wiki_bp
+from flask_jwt_extended import JWTManager
 
 app = Flask(__name__, static_folder=os.path.join(os.path.dirname(__file__), 'static'))
-app.config['SECRET_KEY'] = 'asdf#FGSgvasgf$5$WGT'
+app.config['SECRET_KEY'] = os.getenv("FLASK_SECRET_KEY")
 
 # Habilitar CORS para todas as rotas
 CORS(app)
 
-app.register_blueprint(user_bp, url_prefix='/api')
+app.register_blueprint(user_bp, url_prefix='/api/user')
 app.register_blueprint(wiki_bp, url_prefix='/api/wiki')
 
 # uncomment if you need to use database
 app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'database', 'app.db')).replace('\\', '/')}"
 #app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{os.path.join(os.path.dirname(__file__), 'database', 'app.db')}"
+app.config["JWT_SECRET_KEY"] = os.getenv("JWT_SECRET_KEY")
+jwt = JWTManager(app)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
 with app.app_context():

@@ -62,9 +62,9 @@ class MediaWikiExtractor:
             params = {
                 'action': 'query',
                 'list': 'allpages',
-                'aplimit': 5000,  # Usar um limite seguro, o máximo pode ser 500 ou 5000 dependendo da versão
+                'aplimit': 5000,  
                 'format': 'json',
-                'apfilterredir': 'nonredirects' # NOVO: Ignora redirecionamentos
+                'apfilterredir': 'nonredirects' 
             }
             
             if apcontinue:
@@ -85,15 +85,6 @@ class MediaWikiExtractor:
             except Exception as e:
                 print(f"Erro ao obter lista de páginas: {e}")
                 break
-        
-        # --- NOVO: PRINT DE DIAGNÓSTICO ---
-        print("\n--- DIAGNÓSTICO DE EXTRAÇÃO ---")
-        print(f"A API da Wiki retornou um total de {len(pages)} páginas.")
-        print("Amostra dos primeiros 20 títulos encontrados:")
-        for i, page in enumerate(pages[:20], 1):
-            print(f"  {i}. {page.get('title')}")
-        print("--- FIM DO DIAGNÓSTICO ---\n")
-        # --- FIM DO PRINT DE DIAGNÓSTICO ---
 
         return pages
     
@@ -184,7 +175,7 @@ class MediaWikiExtractor:
         """
         Extrai todo o conteúdo da Wiki com logging detalhado para cada página.
         """
-        print("Obtendo lista de todas as páginas...")
+
         pages = self.get_all_pages()
         print(f"Encontradas {len(pages)} páginas na lista inicial.")
         
@@ -193,18 +184,18 @@ class MediaWikiExtractor:
         print("\n--- INICIANDO EXTRAÇÃO DE CONTEÚDO PÁGINA A PÁGINA ---")
         for i, page in enumerate(pages, 1):
             page_title = page.get('title', 'TÍTULO DESCONHECIDO')
-            print(f"\n({i}/{len(pages)}) Processando: '{page_title}'")
+
 
             # Etapa 1: Tentar obter o conteúdo da página
             content = self.get_page_content(page_title)
             
             if content:
-                print(f"  [ETAPA A] Conteúdo bruto obtido com sucesso.")
+
                 
                 # Etapa 2: Verificar se o conteúdo não está vazio APÓS a limpeza
                 cleaned_content = content.get('content', '').strip()
                 if cleaned_content:
-                    print(f"  [ETAPA B] Conteúdo não está vazio após a limpeza (tamanho: {len(cleaned_content)}).")
+
                     content_list.append(content)
                     print(f"  ✅ SUCESSO: Página '{page_title}' adicionada à lista final.")
                 else:

@@ -4,6 +4,7 @@ from src.services.wiki_extractor import MediaWikiExtractor
 from src.services.embedding_service import EmbeddingService
 from src.services.qa_service import QAService
 import re
+import os
 
 wiki_bp = Blueprint('wiki', __name__)
 
@@ -27,9 +28,9 @@ def extract_wiki_content():
     """
     try:
         data = request.get_json()
-        wiki_url = data.get('wiki_url')
-        username = 'Eric'
-        password = 'Erickaw3-'
+        wiki_url = os.getenv('MEDIAWIKI_URL')
+        username = os.getenv("WIKI_USERNAME")
+        password = os.getenv("WIKI_PASSWORD")
         
         if not wiki_url:
             return jsonify({'error': 'URL da Wiki é obrigatória'}), 400

@@ -16,6 +16,7 @@ padding: 20px;
 background-color: red !important;
 }
 
+
 .container {
 max-width: 1200px;
 margin: 0 auto;
@@ -30,6 +31,11 @@ background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
 color: white;
 padding: 30px;
 text-align: center;
+}
+
+.header img {
+    max-height: 110px; 
+    margin-bottom: 15px;
 }
 
 .header h1 {
